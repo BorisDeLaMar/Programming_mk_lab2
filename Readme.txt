@@ -2,3 +2,10 @@ STM32CubeMX: Чип STM32L152RBT6, PB7 - LD3, PB6 - LD4, PA0 - кнопка USER. В clock
 В project manager: Toolchain/IDE - MDK-ARM, чтобы через Keil uVision прогать, а не STMCube IDE. 
 Далее generate code Keil uVision5: Flash - Configure flash tools - Debug. Здесь, при подключенном контроллере, где Use:ST-Link Debugger, + зайди в Settings. В SWDIO дожно быть Device name контроллера + во вкладке Flash Downloads галочку у Reset and Run. 
 Если компилится с ошибкой, то чек Flash - Configure flash tools - Target - ARM Compiler (если Missing, то Use default compiler version 6 выбери, если есть, конечно). Компиляция - F7, загрузка на мк - F8.
+
+Добавление таймера.
+STM: на PB7 ставим TM4_CH2. Далее в categories слева Timers->TIM4 и настраиваем ШИМ через таймер. Channel2 - PWM Generation CH2, все остальное Disable оставь. 
+Во Configuration этого TIM4: Prescaler = 16000 (частота 16 МГц слишком большая, счетчик слишком быстро досчитает до предела), 
+Counter Period = 1000 (я так понял, это как долго он инкрементируется). Т.е. было 16 М раз в секунду, теперь 1000 раз (16М/16000/1000). Pulse = 500 (сколько длится сама инкремента). 
+Так ШИМ и формируем: counter period - сколько длится "ноль" (маленькое напряжение, почти нулевое), pulse - "единица" (большое напряжение, лампочка горит).
+NB Теперь LD3 горит без команд бесконечного цикла, менять ШИМ можно как в STMCubeMX и generate проекта каждый раз, так и в uVision в функции MX_TIM4_Init, которая ниже main в main.c объявлена.   
