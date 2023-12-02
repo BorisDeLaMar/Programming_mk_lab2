@@ -62,7 +62,6 @@ static void MX_TIM4_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
-#define LEDBREATHE 200
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -94,14 +93,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+	//HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
   while (1)
   {
     /* USER CODE END WHILE */
-		for(int i = LEDBREATHE; i > 0; i--){
-			__HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_2, i);
-			HAL_Delay(20);
-		}
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -182,7 +178,7 @@ static void MX_TIM4_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 10;
+  sConfigOC.Pulse = 500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
@@ -214,7 +210,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -224,6 +220,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 }
 
