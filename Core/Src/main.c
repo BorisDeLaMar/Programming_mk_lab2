@@ -62,6 +62,7 @@ static void MX_TIM4_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+#define LEDBREATHE 200
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -97,7 +98,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+		for(int i = LEDBREATHE; i > 0; i--){
+			__HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_2, i);
+			HAL_Delay(20);
+		}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

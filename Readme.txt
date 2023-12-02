@@ -2,6 +2,7 @@ STM32CubeMX: Чип STM32L152RBT6, PB7 - LD3, PB6 - LD4, PA0 - кнопка USER. В clock
 В project manager: Toolchain/IDE - MDK-ARM, чтобы через Keil uVision прогать, а не STMCube IDE. 
 Далее generate code Keil uVision5: Flash - Configure flash tools - Debug. Здесь, при подключенном контроллере, где Use:ST-Link Debugger, + зайди в Settings. В SWDIO дожно быть Device name контроллера + во вкладке Flash Downloads галочку у Reset and Run. 
 Если компилится с ошибкой, то чек Flash - Configure flash tools - Target - ARM Compiler (если Missing, то Use default compiler version 6 выбери, если есть, конечно). Компиляция - F7, загрузка на мк - F8.
+NB Иногда при регенерации проекта через STM (с добавлением новых подключенных у-в/пинов, например) возникают библиотечные ошибки в uVision. Тогда пересоздай еще раз или помашни еще как-нибудь.
 
 Добавление таймера.
 STM: на PB7 ставим TM4_CH2. Далее в categories слева Timers->TIM4 и настраиваем ШИМ через таймер. Channel2 - PWM Generation CH2, все остальное Disable оставь. 
