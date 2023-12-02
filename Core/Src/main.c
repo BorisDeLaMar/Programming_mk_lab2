@@ -91,20 +91,33 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	uint16_t pwm = 1;
+	uint16_t power_up = 1;
   while (1)
   {
     /* USER CODE END WHILE */
 		for(int i = 0; i < 5; i++){
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
 			HAL_Delay(pwm);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
 			HAL_Delay(20-pwm);
 		}
+		
 		if(pwm >= 20){
-			pwm = 1;
+			pwm--;
+			power_up = 0;
+		}
+		else if(power_up == 0){
+			pwm--;
 		}
 		else{
 			pwm++;
+		}
+		
+		if(pwm <= 0){
+			pwm = 1;
+			power_up = 1;
 		}
     /* USER CODE BEGIN 3 */
   }
