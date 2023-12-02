@@ -97,27 +97,23 @@ int main(void)
     /* USER CODE END WHILE */
 		for(int i = 0; i < 5; i++){
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
 			HAL_Delay(pwm);
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
 			HAL_Delay(20-pwm);
 		}
 		
-		if(pwm >= 20){
-			pwm--;
-			power_up = 0;
-		}
-		else if(power_up == 0){
-			pwm--;
-		}
-		else{
-			pwm++;
+		if(pwm >= 20 || pwm == 0){
+			if(power_up) power_up = 0;
+			else power_up = 1;
 		}
 		
-		if(pwm <= 0){
-			pwm = 1;
-			power_up = 1;
+		if(power_up){
+			pwm++;
+		}
+		else{
+			pwm--;
 		}
     /* USER CODE BEGIN 3 */
   }
