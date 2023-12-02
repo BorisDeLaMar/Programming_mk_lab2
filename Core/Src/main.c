@@ -90,10 +90,22 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	uint16_t pwm = 1;
   while (1)
   {
     /* USER CODE END WHILE */
-
+		for(int i = 0; i < 5; i++){
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+			HAL_Delay(pwm);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+			HAL_Delay(20-pwm);
+		}
+		if(pwm >= 20){
+			pwm = 1;
+		}
+		else{
+			pwm++;
+		}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
