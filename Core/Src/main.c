@@ -64,6 +64,7 @@ static void MX_TIM2_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+	#define LEDBREATHE 500
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -97,10 +98,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	HAL_TIM_Base_Start_IT(&htim2);
+	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
   while (1)
   {
     /* USER CODE END WHILE */
-
+		for(int i = 500; i > 0; i--){
+			__HAL_TIM_SetCompare(&htim4, TIM_CHANNEL_2, i);
+			HAL_Delay(5);
+		}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
